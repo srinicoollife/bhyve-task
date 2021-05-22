@@ -13,11 +13,12 @@ import ReactPaginate from "react-paginate";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
+import FadeLoader from "react-spinners/FadeLoader";
 
 const BasicInfo = () => {
   const [skills, setskills] = useState([]);
-  const [firstName, setfirstName] = useState("aa");
-  const [lastName, setlastName] = useState("aa");
+  const [firstName, setfirstName] = useState("");
+  const [lastName, setlastName] = useState("");
   const [pageNo, setpageNo] = useState(0);
 
   const [selectedSkills, setselectedSkills] = useState([]);
@@ -36,10 +37,12 @@ const BasicInfo = () => {
   }, [pageNo]);
 
   const getSkills = async () => {
+    setloading(true);
     let res = await getCall(get_skills_endpoint);
     res.json().then((res) => {
       setskills(res);
       setpageNo(1);
+      setloading(false);
     });
   };
 
@@ -79,6 +82,7 @@ const BasicInfo = () => {
     } else if (selectedSkills.length < min_skills_count) {
       toast(`Please select minimum of ${min_skills_count} skills`);
     } else {
+      setloading(true);
       let promises = [];
       let profile_payload = { firstName: firstName, lastName };
       let skills_payload = {
@@ -100,6 +104,7 @@ const BasicInfo = () => {
             return errors;
           })
           .then((errors) => {
+            setloading(false);
             if (errors.length) {
               errors.map((error) => toast(error));
             } else {
@@ -114,118 +119,129 @@ const BasicInfo = () => {
   };
 
   return (
-    <div id="basicinfo_container">
-      <h5 className="text-center mb-5">Fill up the Basic Info</h5>
-      <ToastContainer
-        position="top-right"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-      />
-      <div className="row">
-        <div className="col">
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            style={{ width: "300px" }}
-            className="form-control"
-            id="firstName"
-            value={firstName}
-            onChange={(event) => setfirstName(event.target.value)}
-          />
+    <div>
+      {loading && (
+        <FadeLoader
+          type="ThreeDots"
+          color="lightblue"
+          loading={loading}
+          size={15}
+          css={{ position: "absolute", left: "49%", top: "50%" }}
+        />
+      )}
+      <div id="basicinfo_container">
+        <h5 className="text-center mb-5">Fill up the Basic Info</h5>
+        <ToastContainer
+          position="top-right"
+          autoClose={4000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+        />
+        <div className="row">
+          <div className="col">
+            <label htmlFor="firstName">First Name</label>
+            <input
+              type="text"
+              style={{ width: "300px" }}
+              className="form-control"
+              id="firstName"
+              value={firstName}
+              onChange={(event) => setfirstName(event.target.value)}
+            />
+          </div>
+          <div className="col">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              type="text"
+              style={{ width: "300px" }}
+              className="form-control"
+              id="lastName"
+              value={lastName}
+              onChange={(event) => setlastName(event.target.value)}
+            />
+          </div>
         </div>
-        <div className="col">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            style={{ width: "300px" }}
-            className="form-control"
-            id="lastName"
-            value={lastName}
-            onChange={(event) => setlastName(event.target.value)}
-          />
-        </div>
-      </div>
-      <div id="skills_container">
-        <label htmlFor="lastName">Select Skills</label>
-        <div>
-          {filteredSkills.map((skill, index) => {
-            return (
-              <button
-                key={index}
-                type="button"
-                className={`btn mb-3 ${
-                  selectedSkills.find((s) => s.id === skill.id)
-                    ? "btn-primary"
-                    : "btn-outline-primary"
-                }`}
-                style={{
-                  marginRight: "15px",
-                  borderRadius: "50px",
-                  textTransform: "capitalize",
-                }}
-                onClick={() => handleSkillClick(skill)}
-              >
-                {skill.skillName}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <ReactPaginate
-        previousLabel={"previous"}
-        nextLabel={"next"}
-        breakLabel={"..."}
-        breakClassName={"page"}
-        pageCount={skills.length / skills_per_page}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        pageClassName={"page"}
-        previousClassName={"page"}
-        nextClassName={"page"}
-        activeClassName={"active"}
-      />
-
-      {selectedSkills.length ? (
-        <div id="selected_skills_container">
-          <label htmlFor="lastName">
-            Selected Skills ({selectedSkills.length})
-          </label>
+        <div id="skills_container">
+          <label htmlFor="lastName">Select Skills</label>
           <div>
-            {selectedSkills.map((skill, index) => {
+            {filteredSkills.map((skill, index) => {
               return (
                 <button
                   key={index}
                   type="button"
-                  className="btn btn-primary mb-3"
+                  className={`btn mb-3 ${
+                    selectedSkills.find((s) => s.id === skill.id)
+                      ? "btn-primary"
+                      : "btn-outline-primary"
+                  }`}
                   style={{
                     marginRight: "15px",
                     borderRadius: "50px",
                     textTransform: "capitalize",
                   }}
-                  onClick={() => handleSelectedSkillClick(skill)}
+                  onClick={() => handleSkillClick(skill)}
                 >
                   {skill.skillName}
                 </button>
               );
             })}
           </div>
-          <p>* You can select Mininum of 3 skills and Maximum of 8 skills</p>
         </div>
-      ) : null}
 
-      <div className="text-end">
-        <button className="btn btn-light" style={{ marginRight: "20px" }}>
-          Cancel
-        </button>
-        <button className="btn btn-primary" onClick={handleSaveClick}>
-          Save
-        </button>
+        <ReactPaginate
+          previousLabel={"previous"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          breakClassName={"page"}
+          pageCount={skills.length / skills_per_page}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          pageClassName={"page"}
+          previousClassName={"page"}
+          nextClassName={"page"}
+          activeClassName={"active"}
+        />
+
+        {selectedSkills.length ? (
+          <div id="selected_skills_container">
+            <label htmlFor="lastName">
+              Selected Skills ({selectedSkills.length})
+            </label>
+            <div>
+              {selectedSkills.map((skill, index) => {
+                return (
+                  <button
+                    key={index}
+                    type="button"
+                    className="btn btn-primary mb-3"
+                    style={{
+                      marginRight: "15px",
+                      borderRadius: "50px",
+                      textTransform: "capitalize",
+                    }}
+                    onClick={() => handleSelectedSkillClick(skill)}
+                  >
+                    {skill.skillName}
+                  </button>
+                );
+              })}
+            </div>
+            <p>* You can select Mininum of 3 skills and Maximum of 8 skills</p>
+          </div>
+        ) : null}
+
+        <div className="text-end">
+          <button className="btn btn-light" style={{ marginRight: "20px" }}>
+            Cancel
+          </button>
+          <button className="btn btn-primary" onClick={handleSaveClick}>
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );

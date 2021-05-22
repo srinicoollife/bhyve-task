@@ -1,15 +1,25 @@
 import fetchIntercept from "fetch-intercept";
-import { open_endpoints } from "../consts";
+import { auth_endpoints } from "../consts";
 
 const Interceptor = () => {
   fetchIntercept.register({
     request: function (url, config) {
       // Modify the url or config here
-      if (open_endpoints.includes(url)) {
-        // dont intercept
-      } else {
+      if (auth_endpoints.includes(url)) {
+        console.log(url);
+        console.log(config);
         let auth = JSON.parse(localStorage.getItem("auth"));
-        config["headers"]["authorization"] = `Bearer ${auth.accessToken}`;
+        if (config) {
+          config["headers"]["authorization"] = `Bearer ${auth.accessToken}`;
+        } else {
+          config = {
+            headers: {
+              authorization: `Bearer ${auth.accessToken}`,
+            },
+          };
+        }
+      } else {
+        // dont intercept
       }
       return [url, config];
     },
