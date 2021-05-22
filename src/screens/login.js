@@ -39,7 +39,7 @@ const Login = () => {
   return (
     <div id="login_container">
       {loading && <p>Loading .....</p>}
-      <Toast showToast={showToast} msg="Successfully Loged in up to Bhyve!" />
+      <Toast showToast={showToast} msg="Successfully Loged in to Bhyve!" />
       <form onSubmit={handle_loginClick}>
         <div>
           <label htmlFor="username">Email Address</label>
