@@ -12,18 +12,58 @@ code {
     monospace;
 }
 
+/* login css */
 #login_container {
   width: 400px;
   margin: 0 auto;
   margin-top: 100px;
+  border: 1px solid gray;
+  padding: 20px;
 }
-#login_container label {
-  margin-bottom: 5px;
+label {
+  margin-bottom: 10px;
+  font-weight: bold;
 }
-#login_container input {
+input {
   margin-bottom: 15px;
 }
 .error_message {
   color: red;
   font-size: 12px;
+}
+
+/* pagination css */
+.pagination {
+  justify-content: center;
+}
+.page a {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: #007bff !important;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.page a:hover {
+  background-color: #007bff !important;
+  color: #fff !important;
+}
+.page.active a {
+  background-color: #007bff !important;
+  color: #fff !important;
+}
+
+#basicinfo_container {
+  margin: 50px 0;
+  border: 1px solid gray;
+  padding: 20px;
+}
+#skills_container {
+  padding: 0 0 10px 0;
+}
+#selected_skills_container {
+  padding: 15px 0 30px 0;
 }

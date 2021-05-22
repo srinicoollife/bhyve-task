@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import postCall from "../utils/helper";
+import { postCall } from "../utils/helper";
 import { login_endpoint } from "../consts";
 import Toast from "../components/toast";
 
 const Login = () => {
-  const [username, setusername] = useState("");
+  const [username, setusername] = useState("testemail@gmail.com");
   const [password, setpassword] = useState("Password1");
 
   const [loading, setloading] = useState(false);
@@ -30,6 +30,15 @@ const Login = () => {
     if (res.ok) {
       setloading(false);
       setshowToast(true);
+      res.json().then((res) => {
+        console.log(res);
+        window.localStorage.setItem("auth", JSON.stringify(res));
+        if (res.user.profileCompleted) {
+          history.push(`/profile`);
+        } else {
+          history.push(`/basicinfo`);
+        }
+      });
     } else {
       setloading(false);
       res.json().then((error) => setError([].concat(error.message)));
@@ -40,6 +49,7 @@ const Login = () => {
     <div id="login_container">
       {loading && <p>Loading .....</p>}
       <Toast showToast={showToast} msg="Successfully Loged in to Bhyve!" />
+      <h5 className="text-center mb-5">Login to Bhyve</h5>
       <form onSubmit={handle_loginClick}>
         <div>
           <label htmlFor="username">Email Address</label>

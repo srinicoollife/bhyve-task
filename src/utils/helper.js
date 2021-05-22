@@ -11,4 +11,11 @@ const postCall = (url, payload) => {
   });
 };
 
-export default postCall;
+const getCall = (url) => {
+  return fetch(`${api}/${url}`).then((res) => {
+    console.log(res);
+    return res;
+  });
+};
+
+export { postCall, getCall };

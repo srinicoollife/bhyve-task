@@ -4,6 +4,7 @@ const Header = () => {
       <img
         src="https://bhyve.io/wp-content/uploads/2019/04/logo-b.png"
         height="48"
+        alt="logo"
       />
     </div>
   );

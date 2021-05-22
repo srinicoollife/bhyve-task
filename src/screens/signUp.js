@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import postCall from "../utils/helper";
+import React, { useState } from "react";
+import { postCall } from "../utils/helper";
 import { signup_endpoint } from "../consts";
 import Toast from "../components/toast";
 import { useHistory } from "react-router-dom";
@@ -42,6 +42,7 @@ const SignUp = () => {
         showToast={showToast}
         msg="Successfully signed up to Bhyve! Lets login"
       />
+      <h5 className="text-center mb-5">Signup to Bhyve</h5>
       <form onSubmit={handle_signupClick}>
         <div>
           <label htmlFor="username">Email Address</label>
