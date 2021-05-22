@@ -1,23 +1,29 @@
-import { getCall } from "../utils/helper";
+import { getCall, postCall } from "../utils/helper";
 import {
   get_skills_endpoint,
   max_skills_count,
+  min_skills_count,
   skills_per_page,
+  post_profile_endpoint,
+  post_skills_endpoint,
 } from "../consts";
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useHistory } from "react-router-dom";
 
 const BasicInfo = () => {
   const [skills, setskills] = useState([]);
-  const [firstName, setfirstName] = useState("");
-  const [lastName, setlastName] = useState("");
+  const [firstName, setfirstName] = useState("aa");
+  const [lastName, setlastName] = useState("aa");
   const [pageNo, setpageNo] = useState(0);
 
   const [selectedSkills, setselectedSkills] = useState([]);
   const [filteredSkills, setfilteredSkills] = useState([]);
+  const [loading, setloading] = useState(false);
+  const history = useHistory();
 
   // to call api once component loaded
   useEffect(() => {
@@ -65,13 +71,45 @@ const BasicInfo = () => {
     );
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     if (!firstName.trim().length) {
       toast("Please enter valid First Name");
     } else if (!lastName.trim().length) {
       toast("Please enter valid Last Name");
-    } else if (selectedSkills.length < 3) {
-      toast("Please select minimum of 3 skills");
+    } else if (selectedSkills.length < min_skills_count) {
+      toast(`Please select minimum of ${min_skills_count} skills`);
+    } else {
+      let promises = [];
+      let profile_payload = { firstName: firstName, lastName };
+      let skills_payload = {
+        skills: selectedSkills.map((skill) => skill.skillName),
+      };
+
+      promises.push(postCall(post_profile_endpoint, profile_payload));
+      promises.push(postCall(post_skills_endpoint, skills_payload));
+
+      Promise.all(promises).then((response) => {
+        Promise.all(response.map((response_json) => response_json.json()))
+          .then((final_response) => {
+            let errors = [];
+            final_response.forEach((res) => {
+              if (res.error) {
+                errors = [].concat(res.message);
+              }
+            });
+            return errors;
+          })
+          .then((errors) => {
+            if (errors.length) {
+              errors.map((error) => toast(error));
+            } else {
+              toast("Profile updated Successfully");
+              setTimeout(() => {
+                history.push(`/profile`);
+              }, 1000);
+            }
+          });
+      });
     }
   };
 
@@ -181,7 +219,7 @@ const BasicInfo = () => {
         </div>
       ) : null}
 
-      <div class="text-end">
+      <div className="text-end">
         <button className="btn btn-light" style={{ marginRight: "20px" }}>
           Cancel
         </button>

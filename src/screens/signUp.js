@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { postCall } from "../utils/helper";
 import { signup_endpoint } from "../consts";
 import Toast from "../components/toast";
