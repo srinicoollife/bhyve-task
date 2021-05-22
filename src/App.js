@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import Login from "./screens/login";
 import Header from "./components/header";
 import SignUp from "./screens/signUp";
@@ -12,7 +13,7 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <Router>
+      <HashRouter>
         <Switch>
           <Route exact path="/">
             <Login />
@@ -30,7 +31,7 @@ function App() {
             <Profile />
           </Route>
         </Switch>
-      </Router>
+      </HashRouter>
     </div>
   );
 }
