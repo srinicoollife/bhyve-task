@@ -12,8 +12,8 @@ function App() {
   Interceptor();
   return (
     <div className="container">
-      <Header />
       <HashRouter>
+        <Header />
         <Switch>
           <Route exact path="/">
             <Login />
