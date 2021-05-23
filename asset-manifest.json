@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/bhyve-task/static/css/main.4cd4660f.chunk.css",
-    "main.js": "/bhyve-task/static/js/main.01b89405.chunk.js",
-    "main.js.map": "/bhyve-task/static/js/main.01b89405.chunk.js.map",
+    "main.js": "/bhyve-task/static/js/main.6f113110.chunk.js",
+    "main.js.map": "/bhyve-task/static/js/main.6f113110.chunk.js.map",
     "runtime-main.js": "/bhyve-task/static/js/runtime-main.9a8e8f0a.js",
     "runtime-main.js.map": "/bhyve-task/static/js/runtime-main.9a8e8f0a.js.map",
     "static/css/2.97503911.chunk.css": "/bhyve-task/static/css/2.97503911.chunk.css",
-    "static/js/2.1112e141.chunk.js": "/bhyve-task/static/js/2.1112e141.chunk.js",
-    "static/js/2.1112e141.chunk.js.map": "/bhyve-task/static/js/2.1112e141.chunk.js.map",
+    "static/js/2.d1bbbc30.chunk.js": "/bhyve-task/static/js/2.d1bbbc30.chunk.js",
+    "static/js/2.d1bbbc30.chunk.js.map": "/bhyve-task/static/js/2.d1bbbc30.chunk.js.map",
     "static/js/3.901556ec.chunk.js": "/bhyve-task/static/js/3.901556ec.chunk.js",
     "static/js/3.901556ec.chunk.js.map": "/bhyve-task/static/js/3.901556ec.chunk.js.map",
     "index.html": "/bhyve-task/index.html",
     "static/css/2.97503911.chunk.css.map": "/bhyve-task/static/css/2.97503911.chunk.css.map",
     "static/css/main.4cd4660f.chunk.css.map": "/bhyve-task/static/css/main.4cd4660f.chunk.css.map",
-    "static/js/2.1112e141.chunk.js.LICENSE.txt": "/bhyve-task/static/js/2.1112e141.chunk.js.LICENSE.txt"
+    "static/js/2.d1bbbc30.chunk.js.LICENSE.txt": "/bhyve-task/static/js/2.d1bbbc30.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.9a8e8f0a.js",
     "static/css/2.97503911.chunk.css",
-    "static/js/2.1112e141.chunk.js",
+    "static/js/2.d1bbbc30.chunk.js",
     "static/css/main.4cd4660f.chunk.css",
-    "static/js/main.01b89405.chunk.js"
+    "static/js/main.6f113110.chunk.js"
   ]
 }
